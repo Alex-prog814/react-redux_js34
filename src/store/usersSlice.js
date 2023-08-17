@@ -27,6 +27,22 @@ export const getOneUser = createAsyncThunk(
     }
 );
 
+export const deleteUser = createAsyncThunk(
+    'user/deleteUser',
+    async (id, { dispatch }) => {
+        await axios.delete(`${API}/${id}`);
+        dispatch(getUsers());
+    }
+);
+
+export const saveChanges = createAsyncThunk(
+    'users/saveChanges',
+    async (updatedUserObj, { dispatch }) => {
+        await axios.patch(`${API}/${updatedUserObj.id}`, updatedUserObj);
+        dispatch(getUsers());
+    }
+);
+
 const usersSlice = createSlice({
     name: 'users',
     initialState: {
@@ -35,7 +51,7 @@ const usersSlice = createSlice({
         loading: false,
         error: null
     },
-    reducer: {
+    reducers: {
         cleanOneUser: (state, action) => {
             state.oneUser = null;
         }
