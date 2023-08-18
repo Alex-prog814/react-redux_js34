@@ -27,7 +27,7 @@ const UserEdit = () => {
   
         <input type="text" placeholder="Expirience" onChange={e => setUser({ ...user, expirience: e.target.value })} value={user.expirience} />
   
-        <button onClick={() => {
+        <button className="edit__btn" onClick={() => {
           dispatch(saveChanges(user));
           navigate('/');
         }}>Save</button>

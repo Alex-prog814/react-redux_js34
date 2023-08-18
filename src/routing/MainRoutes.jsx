@@ -4,6 +4,7 @@ import UsersList from '../components/UsersList';
 import UserCreate from '../components/UserCreate';
 import UserEdit from '../components/UserEdit';
 import UserDetails from '../components/UserDetails';
+import FavoritesList from '../components/FavoritesList';
 
 const MainRoutes = () => {
   return (
@@ -12,6 +13,7 @@ const MainRoutes = () => {
         <Route path="/create" element={<UserCreate />} />
         <Route path="/edit/:id" element={<UserEdit />} />
         <Route path="/details/:id" element={<UserDetails />} />
+        <Route path="/favorites" element={<FavoritesList />} />
     </Routes>
   )
 }

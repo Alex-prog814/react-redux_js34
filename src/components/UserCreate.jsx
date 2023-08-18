@@ -22,7 +22,7 @@ const UserCreate = () => {
   };
 
   return (
-    <div>
+    <div className="create__block">
       <h2>Create User</h2>
 
       <input type="text" placeholder="Name" onChange={e => setUser({ ...user, name: e.target.value })} value={user.name} />
@@ -31,7 +31,7 @@ const UserCreate = () => {
 
       <input type="text" placeholder="Expirience" onChange={e => setUser({ ...user, expirience: e.target.value })} value={user.expirience} />
 
-      <button onClick={addUser}>Create</button>
+      <button className="create__btn" onClick={addUser}>Create</button>
     </div>
   )
 }

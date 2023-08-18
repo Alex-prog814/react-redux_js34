@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const API = 'http://localhost:8000/users';
+const FAVORITES_API = 'http://localhost:8000/favorites';
 
 export const getUsers = createAsyncThunk(
     'users/getUsers',
@@ -43,10 +44,36 @@ export const saveChanges = createAsyncThunk(
     }
 );
 
+export const addToFavorites = createAsyncThunk(
+    'users/addToFavorites',
+    async (updatedUserObj, { dispatch }) => {
+        if(updatedUserObj.favorites) {
+            let favoriteObj = {
+                id: `favorite-${updatedUserObj.id}`,
+                user: updatedUserObj
+            };
+            await axios.post(FAVORITES_API, favoriteObj);
+        } else {
+            await axios.delete(`${FAVORITES_API}/favorite-${updatedUserObj.id}`);
+        };
+        await dispatch(saveChanges(updatedUserObj));
+        dispatch(getFavorites());
+    }
+);
+
+export const getFavorites = createAsyncThunk(
+    'users/getFavorites',
+    async () => {
+        let { data } = await axios.get(FAVORITES_API);
+        return data;
+    }
+);
+
 const usersSlice = createSlice({
     name: 'users',
     initialState: {
         users: [],
+        favorites: [],
         oneUser: null,
         loading: false,
         error: null
@@ -71,6 +98,9 @@ const usersSlice = createSlice({
         },
         [getOneUser.fulfilled]: (state, action) => {
             state.oneUser = action.payload;
+        },
+        [getFavorites.fulfilled]: (state, action) => {
+            state.favorites = action.payload;
         }
     }
 });
